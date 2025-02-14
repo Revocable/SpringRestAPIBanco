@@ -17,12 +17,12 @@ import lombok.RequiredArgsConstructor;
 public class ClienteService {
 
     public final ClienteRepository cdao;
-    public final String notFound = "404 Not Found: Cliente não encontrado.";
+    public static final String NOT_FOUND = "404 Not Found: Cliente não encontrado.";
 
     public ResponseEntity<Cliente> buscarClientePorId(final Long id) {
         return cdao.findById(id)
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException(notFound));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND));
     }
 
     public ResponseEntity<Cliente> cadastrarCliente(@Valid @RequestBody final Cliente cliente, final UriComponentsBuilder uriBuilder) {
@@ -42,7 +42,7 @@ public class ClienteService {
                     Cliente clienteAtualizadoSalvo = cdao.save(clienteExistente);
                     return ResponseEntity.ok(clienteAtualizadoSalvo);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException(notFound));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND));
     }
 
     public ResponseEntity<Void> excluirCliente(final Long id) {
@@ -51,6 +51,6 @@ public class ClienteService {
                     cdao.delete(cliente);
                     return ResponseEntity.noContent().<Void>build();
                 })
-                .orElseThrow(() -> new ResourceNotFoundException(notFound));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND));
     }
 }

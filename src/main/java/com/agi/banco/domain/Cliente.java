@@ -76,8 +76,7 @@ public class Cliente implements Serializable {
     }
 
     private boolean cpfValido(String cpf) {
-        if (cpf == null || cpf.length() != 14 || !formatoValido(this.cpf)) return false;
-        return true;
+        return cpf != null && cpf.length() == 14 && formatoValido(this.cpf);
     }
 
     //verifica se o cpf contem apenas digitos validos para um cpf (0-9 e . -)

@@ -71,6 +71,7 @@ class ClienteControllerTest {
         assertEquals(cliente, response.getBody());
     }
 
+    @SuppressWarnings("null")
     @Test
     void testAtualizarCliente_Encontrado() {
         Cliente clienteAtualizado = new Cliente(1L, "Maria Silva", "123.456.789-10", "maria@email.com",
