@@ -64,11 +64,11 @@ public class GlobalExceptionHandler {
         }
 
         ErrorResponse error = new ErrorResponse(
-            HttpStatus.CONFLICT.value(),
+            HttpStatus.UNPROCESSABLE_ENTITY.value(),
             "Erro de integridade dos dados",
             mensagem
         );
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
