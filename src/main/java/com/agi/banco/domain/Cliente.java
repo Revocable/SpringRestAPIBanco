@@ -10,11 +10,17 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "clientes")
-@Data
+
+@Getter
+@Setter
+
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 @Schema(description = "Entidade que representa um cliente do banco")
+
 public class Cliente implements Serializable {
 
     @Id
@@ -58,23 +64,24 @@ public class Cliente implements Serializable {
     @PrePersist
     @PreUpdate
     private void validarDados() {
-        if (!validarCPF(this.cpf)) {
+        if (!cpfValido(this.cpf)) {
             throw new IllegalArgumentException("CPF inválido");
         }
-        if (this.telefone != null && !validarTelefone(this.telefone)) {
+        if (this.telefone != null && !telefoneValido(this.telefone)) {
             throw new IllegalArgumentException("Telefone inválido");
         }
-        if(!validarNascimento(this.dataNascimento)){
+        if(!nascimentoValido(this.dataNascimento)){
             throw new IllegalArgumentException("Você precisa ter mais de 18 anos");
         }
     }
 
-    private boolean validarCPF(String cpf) {
-        if (cpf == null || cpf.length() != 14 || !validarNumeros(this.cpf)) return false;
+    private boolean cpfValido(String cpf) {
+        if (cpf == null || cpf.length() != 14 || !formatoValido(this.cpf)) return false;
         return true;
     }
 
-    private boolean validarNumeros(String cpf) {
+    //verifica se o cpf contem apenas digitos validos para um cpf (0-9 e . -)
+    private boolean formatoValido(String cpf) {
         String digitosValidos = "1234567890.-";
         
         for (char c : cpf.toCharArray()) {
@@ -86,12 +93,12 @@ public class Cliente implements Serializable {
         return true;
     }
     
-    private boolean validarTelefone(String telefone) {
+    private boolean telefoneValido(String telefone) {
         if (telefone == null) return true;
         return telefone.length() == 10 || telefone.length() == 11;
     }
 
-    private boolean validarNascimento(LocalDate nasc) {
+    private boolean nascimentoValido(LocalDate nasc) {
         return nasc.plusYears(18).isBefore(LocalDate.now()) || nasc.plusYears(18).isEqual(LocalDate.now());
     }
     
